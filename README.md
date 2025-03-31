@@ -55,19 +55,19 @@ This is an ASP.NET Core MVC application that tracks stock transactions (buying a
 ## Screenshots
 
 1. **Login Page**  
-   ![Login Page](./Screenshots/login.png)
+   ![Login Page](./TransactionRecordApp/Screenshots/login.png)
 
 2. **Register Page**  
-   ![Register Page](./Screenshots/Register.png)
+   ![Register Page](./TransactionRecordApp/Screenshots/Register.png)
 
 3. **Edit Transaction**  
-   ![Edit Transaction](./Screenshots/Edit_Transaction.png)
+   ![Edit Transaction](./TransactionRecordApp/Screenshots/Edit_Transaction.png)
 
 4. **Access Denied**  
-   ![Access Denied](./Screenshots/AccessDenied.png)
+   ![Access Denied](./TransactionRecordApp/Screenshots/AccessDenied.png)
 
 5. **Delete Transaction**  
-   ![Delete Transaction](./Screenshots/delete.png)
+   ![Delete Transaction](./TransactionRecordApp/Screenshots/delete.png)
 
 > **Note**: These images are located in:
 > ```
