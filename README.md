@@ -1,45 +1,78 @@
-﻿# Example of PVS-Studio rules configuration file. 
-# Full documentation is available at
-# https://pvs-studio.com/en/docs/manual/full/
-# https://pvs-studio.com/en/docs/manual/0040/
-#
-# Filtering out messages by specifying a fragment from source code:
-# //-V:textFromSourceCode:3001,3002,3003
-#
-# Turning off specific analyzer rules:
-# //-V::3021,3022
-#
-# Changing in analyzer's output message:
-# //+V3022:RENAME:{oldText0:newText0},{oldText1:newText1}
-#
-# Appends message to analyzer's message:
-# //+V3023:ADD:{Message}
-#
-# Excluding directories from the analysis:
-# //V_EXCLUDE_PATH \thirdParty\
-# //V_EXCLUDE_PATH C:\TheBestProject\thirdParty
-# //V_EXCLUDE_PATH *\UE4\Engine\*
-#
-# Redefining levels:
-# //V_LEVEL_1::501,502
-# //V_LEVEL_2::522,783,579
-# //V_LEVEL_3::773
-#
-# Disabling groups of diagnostics:
-# //-V::GA
-# //-V::GA,OWASP
-#
-# Disabling groups of diagnostics with specified warning levels:
-# //-V::GA:3
-# //-V::GA,OWASP:3
-# //-V::GA,OWASP:2,3
-#
-# Disabling messages with specified warning levels:
-# //-V::3002:3
-# //-V::3002,3008:3
-# //-V::3002,3008:2,3
-# 
-# Executing commands from the "CustomBuild" tasks before the analysis:
-# //EXECUTE_CUSTOM_BUILD_COMMANDS
-#
-# Rule filters should be written without '#' character.
+# TransactionRecordApp – README
+
+## Overview
+This is an ASP.NET Core MVC application that tracks stock transactions (buying and selling) with role-based authorization. Only authenticated users can add or edit transactions, and only the Admin role can delete them.
+
+## Setup & Installation
+
+1. **Clone or Download** the repository to your local machine.
+
+2. **Open the Solution**:  
+   - Open `TransactionRecordApp.sln` in Visual Studio (or another .NET-compatible IDE).
+
+3. **Update the Connection String**:  
+   - In `appsettings.json`, locate `"TransactionsDb"` under `"ConnectionStrings"` and ensure it matches your local database server setup.  
+   - Example:
+     ```json
+     "ConnectionStrings": {
+       "TransactionsDb": "Server=(localdb)\\MSSQLLocalDB;Database=Transactions8831198;Trusted_Connection=True;"
+     }
+     ```
+
+4. **Install NuGet Packages (if needed)**:  
+   - Make sure **Microsoft.EntityFrameworkCore**, **Microsoft.EntityFrameworkCore.SqlServer**, **Microsoft.AspNetCore.Identity.EntityFrameworkCore**, and **Microsoft.EntityFrameworkCore.Tools** are installed. Visual Studio usually restores them automatically.
+
+5. **Add & Update the Database**:  
+   - Open **Package Manager Console** in Visual Studio.
+   - Run:
+     ```powershell
+     Add-Migration InitialCreate
+     Update-Database
+     ```
+   - This creates or updates the local SQL database with the Identity tables and the seeded transaction data.
+
+6. **Run the Application**:  
+   - Press **F5** in Visual Studio to run in debug mode, or
+   - Use `dotnet run` in a terminal/command prompt.
+
+7. **Test the Admin User**:
+   - On first run, an Admin role and user may be seeded automatically in `TransactionContext.CreateAdminUser(...)` or in `Program.cs`.
+   - Default admin credentials might be:
+     - Username: `admin`
+     - Password: `Pa$$w0rd123`
+   - You can update these in code if needed.
+
+## How It Works
+
+- **Register**: Create a new user account with username, email, and password.
+- **Login**: Once logged in, you can add or edit transactions.
+- **Delete**: Only an **Admin** can delete a transaction. Regular users see an Access Denied page if they try to delete.
+- **Transaction Pages**: 
+  - **Index** shows a list of existing transactions.
+  - **Add** (or **Edit**) requires you to be authenticated.
+  - **Delete** requires you to be both authenticated and in the Admin role.
+
+## Screenshots
+
+1. **Login Page**  
+   ![Login Page](./Screenshots/login.png)
+
+2. **Register Page**  
+   ![Register Page](./Screenshots/Register.png)
+
+3. **Edit Transaction**  
+   ![Edit Transaction](./Screenshots/Edit_Transaction.png)
+
+4. **Access Denied**  
+   ![Access Denied](./Screenshots/AccessDenied.png)
+
+5. **Delete Transaction**  
+   ![Delete Transaction](./Screenshots/delete.png)
+
+> **Note**: These images are located in:
+> ```
+> C:\Users\Rudra\Downloads\quiz5-starting-code-n-code-snippets\TransactionRecord\TransactionRecordApp\Screenshots\
+> ```
+> Make sure to place them in your GitHub repo’s `Screenshots` folder so the relative paths work if you’re using these same file names.
+
+**Enjoy exploring the TransactionRecordApp!**
