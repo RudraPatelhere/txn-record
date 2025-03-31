@@ -10,11 +10,11 @@ namespace TransactionRecordApp.Controllers
     /// </summary>
     public class TransactionController : Controller
     {
-        private TransactionContext _tranactionContext;
+        private readonly TransactionContext _transactionContext;
 
-        public TransactionController(TransactionContext transactionConatext)
+        public TransactionController(TransactionContext transactionContext)
         {
-            _tranactionContext = transactionConatext;
+            _transactionContext = transactionContext;
         }
 
         // 👤 Requires login to access Add
@@ -23,7 +23,7 @@ namespace TransactionRecordApp.Controllers
         public IActionResult Add()
         {
             ViewBag.Action = "Add";
-            ViewBag.TransactionTypes = _tranactionContext.TransactionType.OrderBy(t => t.Name).ToList();
+            ViewBag.TransactionTypes = _transactionContext.TransactionType.OrderBy(t => t.Name).ToList();
             return View("Edit", new Transaction());
         }
 
@@ -33,13 +33,14 @@ namespace TransactionRecordApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _tranactionContext.Transactions.Add(transaction);
-                _tranactionContext.SaveChanges();
+                _transactionContext.Transactions.Add(transaction);
+                _transactionContext.SaveChanges();
                 return RedirectToAction("Index", "Transactions");
             }
             else
             {
                 ViewBag.Action = "Add";
+                ViewBag.TransactionTypes = _transactionContext.TransactionType.OrderBy(t => t.Name).ToList();
                 return View("Edit", transaction);
             }
         }
@@ -50,8 +51,8 @@ namespace TransactionRecordApp.Controllers
         public IActionResult Edit(int id)
         {
             ViewBag.Action = "Edit";
-            var transaction = _tranactionContext.Transactions.Find(id);
-            ViewBag.TransactionTypes = _tranactionContext.TransactionType.OrderBy(t => t.Name).ToList();
+            var transaction = _transactionContext.Transactions.Find(id);
+            ViewBag.TransactionTypes = _transactionContext.TransactionType.OrderBy(t => t.Name).ToList();
             return View(transaction);
         }
 
@@ -61,14 +62,14 @@ namespace TransactionRecordApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _tranactionContext.Transactions.Update(transaction);
-                _tranactionContext.SaveChanges();
+                _transactionContext.Transactions.Update(transaction);
+                _transactionContext.SaveChanges();
                 return RedirectToAction("Index", "Transactions");
             }
             else
             {
                 ViewBag.Action = "Edit";
-                ViewBag.TransactionTypes = _tranactionContext.TransactionType.OrderBy(t => t.Name).ToList();
+                ViewBag.TransactionTypes = _transactionContext.TransactionType.OrderBy(t => t.Name).ToList();
                 return View(transaction);
             }
         }
@@ -78,7 +79,7 @@ namespace TransactionRecordApp.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
-            var transaction = _tranactionContext.Transactions.Find(id);
+            var transaction = _transactionContext.Transactions.Find(id);
             return View(transaction);
         }
 
@@ -86,8 +87,8 @@ namespace TransactionRecordApp.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Delete(Transaction transaction)
         {
-            _tranactionContext.Transactions.Remove(transaction);
-            _tranactionContext.SaveChanges();
+            _transactionContext.Transactions.Remove(transaction);
+            _transactionContext.SaveChanges();
             return RedirectToAction("Index", "Transactions");
         }
     }

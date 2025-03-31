@@ -5,22 +5,41 @@
 
 <h2>Login</h2>
 
-<form asp-action="Login">
+<!-- Show global model errors here, e.g. "Invalid login attempt." -->
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<!-- Must specify method="post" -->
+<form asp-action="Login" method="post">
+    @Html.AntiForgeryToken() <!-- recommended for security -->
+
     <div class="mb-3">
         <label asp-for="Username" class="form-label"></label>
         <input asp-for="Username" class="form-control" />
         <span asp-validation-for="Username" class="text-danger"></span>
     </div>
+
     <div class="mb-3">
         <label asp-for="Password" class="form-label"></label>
-        <input asp-for="Password" class="form-control" />
+        <input asp-for="Password" class="form-control" type="password" />
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
+
     <div class="form-check mb-3">
         <input asp-for="RememberMe" class="form-check-input" />
         <label asp-for="RememberMe" class="form-check-label"></label>
     </div>
+
     <input type="hidden" asp-for="ReturnUrl" />
+
     <button type="submit" class="btn btn-primary">Login</button>
-    <p class="mt-2">Don't have an account? <a asp-action="Register">Register here</a></p>
+
+    <p class="mt-2">
+        Don't have an account?
+        <a asp-action="Register">Register here</a>
+    </p>
 </form>
+
+@section Scripts {
+    <!-- This partial typically includes jQuery Validation + Unobtrusive scripts -->
+    <partial name="_ValidationScriptsPartial" />
+}
